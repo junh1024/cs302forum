@@ -2,7 +2,7 @@
 
 <html>
 <head>
-	<title>Forum – {{ topic.title }}</title>
+	<title>Forum – Edit</title>
 	<meta http-equiv="refresh" content="240" > 
 	<style type="text/css">
 	body{background-image:url('http://farm1.static.flickr.com/244/515715998_b7a788a89b_o.jpg'); background-attachment:fixed;} /* web*/
@@ -24,54 +24,43 @@
 
 </td></tr></table><hr>
 
-<h2><a href="../">Forum</a>: {{ topic.title }} {%if topic.category%}({{topic.category}}){%endif%}</h2>
+{% if error_message %}<p><strong><h2>{{ error_message }}</h2></strong></p>{% endif %}
+
+<h2><a href="../">Edit Message</a>: {{ topic.title }} {%if topic.category%}({{topic.category}}){%endif%}</h2>
 <table height="56%" width="100%"><tr><td valign="top">
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-{% if messages %}
+
 
 	<table align="center" width="80%" border=1>
 
-	{% for message in messages %}
+	
 	
 		<tr><td border=1 valign="middle" align="center" width=100><b>{{ message.creator }}</b></td>
-			<td align="right"><font color=#223322><i>{{ message.created|date:"h:i A, D d M Y"}}</i></font>
-
-			{% if uname = message.creator %}
-			<a href= "../edit/{{message.id}}">Edit</a> 
-			{% endif %}
-			
-			</td></tr>
+			<td align="right"><font color=#223322><i>{{ message.created|date:"h:i A, D d M"}}</i></font></td></tr>
 			
 	    <tr><td valign="top" align="right"><br>{{ forloop.counter }} &nbsp</td>
-			<td height=100 valign="top"><br>{{ message.body|linebreaksbr|myreplace|urlize}} <p></td></tr>
+			<td height=100 align="center" valign="middle"><br>
 			
-	{% endfor %}
+				<font color=#223322><i>Bold, Italics, and Underline BBcode is allowed. URLs will be made clickable</i><p>
+				<form name="input"  method="POST">
+				<TEXTAREA NAME="body" COLS=60 ROWS=4>{{ message.body}}</TEXTAREA>
+				<p>
+				<input type="submit" value="Edit" />
+				</form>
+			
+			<p></td></tr>
+			
+	
 
     </table></td></tr>
 
-{% else %}
-    <center>No messages in this topic</center>
-{% endif %}
+
 
 <tr><td><br></td></tr>
 
-<tr><td align="center" valign="middle">
-{% ifnotequal topic.status 2 %}
-<font color=#223322><i>Bold, Italics, and Underline BBcode is allowed. URLs will be made clickable</i><p>
-<form name="input" action="./" method="POST">
-<TEXTAREA NAME="body" COLS=60 ROWS=6></TEXTAREA>
-<p>
-<input type="submit" value="Post" />
-</form>
 
-{% else %}
-This topic is locked.
-{% endifnotequal %}
-
-</td>
-</tr>
 
 </table>
 

@@ -34,7 +34,7 @@ def index(request):
 			b.save()
 			topic_obj = get_object_or_404(topic, title=title) #displays topic
 			mesg_list = message.objects.filter(topic=topic_obj).order_by('created')
-			return HttpResponseRedirect('/forum/%s' % (title)) #redirects to the topic that was just created
+			return HttpResponseRedirect('/forum/topic/%s' % (b.id)) #redirects to the topic that was just created
 		except: #make more excepts for other errors
 			error='Topic with title aready exists'
 		else:
@@ -42,13 +42,13 @@ def index(request):
 	return render_to_response('forum/index.html',{'uname': uname, 'topic_list': topic_list,'time_string': time_string,'error': error } )
 
 @login_required
-def detail(request, title):
+def detail(request, id):
 	uname = str(request.user)
 	ulist=User.objects
 	time_string=strftime("Date is %a, %d of %B. | Time is %I:%M:%S %p", localtime())
 #print ulist.get(username__exact=uname).date_joined was going to implement a miniprofile for each user, but can't parse remainder happened
 	try:
-		topic_obj = get_object_or_404(topic, title=title) #displays topic
+		topic_obj = get_object_or_404(topic, id=id) #displays topic
 		mesg_list = message.objects.filter(topic=topic_obj).order_by('created')#doesn't display it in the order that happens to come out of the database :P
 		if topic_obj.status == 3 and  ( topic_obj.creator == uname or  topic_obj.category == uname): #authorized to view hidden topic
 			print "#authorized to view hidden topic"
@@ -62,7 +62,8 @@ def detail(request, title):
 			print "not authorized to view topic"
 			return HttpResponseRedirect('/forum/' )	
 	except:
-		return HttpResponseRedirect('/forum/' )
+		print "some error"
+		# return HttpResponseRedirect('/forum/' )
 
 def preptopic(request, topic_obj, uname):
 	print "preptopic called"
@@ -70,3 +71,18 @@ def preptopic(request, topic_obj, uname):
 		body2=request.POST['body'] #extracts the body
 		message(creator=uname, topic=topic.objects.get(id=topic_obj.id), body=body2).save() #new message
 		topic_obj.save() #updates the date of topic
+
+@login_required
+def edit(request,id):
+	uname = str(request.user)
+	message_obj = get_object_or_404(message,id=id)
+	
+	if 'body' in request.POST:
+		body2=request.POST['body'] #extracts the body
+		message_obj.body=body2  #replace the message with the one user just POSTed
+		message_obj.save();
+
+	if message_obj.creator == uname: #current logged in user = original poster of message
+		return render_to_response('forum/edit.html',{'uname': uname,'message':message_obj})
+	else:
+		return render_to_response('forum/edit.html',{'uname': uname,'error_message':"not permitted"})

@@ -26,3 +26,5 @@ class message(models.Model):
 #	image = models.FileField(upload_to='/',blank=True,null=True) Protocol change in 1.05: Images as URL embed/link
 	def __unicode__(self):
 		return self.body
+		
+		

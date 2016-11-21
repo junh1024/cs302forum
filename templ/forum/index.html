@@ -55,33 +55,33 @@
 		{% ifequal topic.status 3 %}
 			{% ifequal uname topic.creator %}
 			
-		        <tr><td width="60%"> &nbsp &nbsp <a href="{{ topic.title }}">{{ topic.title }} hidden topic</a></td>
+		        <tr><td width="60%"> &nbsp &nbsp <a href="./topic/{{ topic.id }}">{{ topic.title }} hidden topic</a></td>
 
 				<td width="16%" align="center">{{ topic.category }}</td>
 				<td width="12%" align="center">{{ topic.creator }}</td>
 				<td height=50 width="12%" align="center"><font color=#223322><i>{{ topic.lastchange|date:"h:i A" }},<br>
-					{{ topic.lastchange|date:"D d M" }}</i></font></td></tr>
+					{{ topic.lastchange|date:"d M Y" }}</i></font></td></tr>
 			{% endifequal %}
 			
 			{% ifnotequal uname topic.creator %} <!-- this fixes a bug if you had a private topic for yourself. it would be displayed twice -->
 			{% ifequal uname topic.category %}
 			
-		        <tr><td width="60%"> &nbsp &nbsp <a href="{{ topic.title }}">{{ topic.title }} hidden topic</a></td>
+		        <tr><td width="60%"> &nbsp &nbsp <a href="./topic/{{ topic.id }}">{{ topic.title }} hidden topic</a></td>
 
 				<td width="16%" align="center">{{ topic.category }}</td>
 				<td width="12%" align="center">{{ topic.creator }}</td>
 				<td height=50 width="12%" align="center"><font color=#223322><i>{{ topic.lastchange|date:"h:i A" }},<br>
-					{{ topic.lastchange|date:"D d M" }}</i></font></td></tr>
+					{{ topic.lastchange|date:"d M Y" }}</i></font></td></tr>
 			{% endifequal %}
 			{% endifnotequal %}
 						
 		{% else %}
-			<tr><td width="60%"> &nbsp &nbsp <a href="{{ topic.title }}">{{ topic.title }} </a></td>
+			<tr><td width="60%"> &nbsp &nbsp <a href="./topic/{{ topic.id }}">{{ topic.title }} </a></td>
 
 			<td width="16%" align="center">{{ topic.category }}</td>
 			<td width="12%" align="center">{{ topic.creator }}</td>
 			<td height=50 width="12%" align="center"><font color=#223322><i>{{ topic.lastchange|date:"h:i A" }},<br>
-				{{ topic.lastchange|date:"D d M" }}</i></font></td></tr>
+				{{ topic.lastchange|date:"d M Y" }}</i></font></td></tr>
 		{% endifequal %}
     {% endfor %}
 
