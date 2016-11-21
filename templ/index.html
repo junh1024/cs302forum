@@ -1,0 +1,30 @@
+<html>
+<head><title>Main Page</title></head>
+<body>
+
+<table width="100%" height=40><tr><td align="center" valign="middle">time is {{ time_string }} </td></tr></table>
+
+<hr>
+
+<table align="center" height="84%" width="100%">
+<tr><td align="center" valign="middle">
+
+<br>
+{% if invalid_login %} invalid login!<br> {% endif %}
+{% if account_disabled %} account_disabled!<br> {% endif %}
+
+<table>
+<form name="input" action="login" method="post">
+	<tr><td>Username:</td><td><input type="text" name="user"/></td></tr>
+	<tr><td>Password:</td><td><input type="password" name="pass"/></td></tr>
+	
+	<tr><td align="left"><br>
+		<input type="button" value="Register" onclick="document.location = 'register';"></td>
+	<td align="right"><br><input type="submit" value="Login" /></td></tr>
+</form>
+</table>
+
+</table>
+
+<!-- STATS: Total: %(totTime).2f Python: %(pyTime).2f DB: %(dbTime).2f Queries: %(queries)d -->
+</html>

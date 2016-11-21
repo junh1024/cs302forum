@@ -1,0 +1,22 @@
+<html>
+
+<head><title>{{ poll.question }} - results</title></head>
+
+<body background="http://farm1.static.flickr.com/192/515716170_e6bf382063_o.jpg"> <!-- production-->
+	
+<font color="white">
+<h2>{{ poll.question }}</h2>
+
+<ul>
+{% for choice in poll.choice_set.all %}
+    <li>{{ choice.choice }} – {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<!-- STATS: Total: %(totTime).2f Python: %(pyTime).2f DB: %(dbTime).2f Queries: %(queries)d -->
+
+</font>
+
+<input type=button value="Back" onClick="history.go(-1)">
+
+</body><html>

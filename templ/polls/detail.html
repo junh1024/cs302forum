@@ -1,0 +1,32 @@
+<html>
+
+<head><title>{{ poll.question }} - vote</title></head>
+
+<body background="http://farm1.static.flickr.com/244/515715998_b7a788a89b_o.jpg">  <!-- web-->
+
+<i><h1>Welcome.</h1></i>
+
+<h2>{{ poll.question }}</h2>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/polls/{{ poll.id }}/vote/" method="post">
+{% for choice in poll.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label><br />
+{% endfor %}
+<br>
+<input type="submit" value="Vote" />
+</form>
+
+<form>
+<input type=button value="Back" onClick="history.go(-1)">
+</form>
+
+<form name="input" action="/logout" method="get">
+<input type="submit" value="Logout" /></form> 
+
+<!-- STATS: Total: %(totTime).2f Python: %(pyTime).2f DB: %(dbTime).2f Queries: %(queries)d -->
+
+</body>
+</html>
